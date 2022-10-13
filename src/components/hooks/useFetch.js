@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const useFetch = (url) => {
 
-    const [data, setData] = useState([]) 
+  const [cars, setCars] = useState([]) 
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
 
     useEffect(()=>{
+        setLoading(true)
         fetch(url)
         .then(response => response.json())
-        .then(data => setData(data));
-    },[url])
+        .then(data => setCars(data))
+        .catch(error => setError("Ocurrio un error"))
+        .finally(()=> setLoading(false))
+       },[url])
 
-  return (
-    <div>
-      
-    </div>
-  )
+  return { cars, loading, error }
+  
 }
 
 export default useFetch
